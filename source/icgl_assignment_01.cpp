@@ -42,6 +42,32 @@
  */
 void make_rotation_matrix(float angle_degrees, float axisx, float axisy, float axisz, matrix_struct &rotation_matrix) {
     // Calcular 'rotation_matrix'.
+
+	float normalizationFactor = sqrtf(axisx*axisx + axisy*axisy + axisz*axisz);
+	axisx /= normalizationFactor;
+	axisy /= normalizationFactor;
+	axisz /= normalizationFactor;
+	float angle_radians = -(angle_degrees * pi/180.0);
+	float c = cosf(angle_radians);
+	float s = sinf(angle_radians);
+	float t = 1 - c;
+
+	rotation_matrix.operator[](0) = axisx*axisx*t + c;
+	rotation_matrix.operator[](1) = axisx*axisy*t - axisz*s;
+	rotation_matrix.operator[](2) = axisx*axisz*t + axisy*s;
+	rotation_matrix.operator[](3) = 0;
+	rotation_matrix.operator[](4) = axisx*axisy*t + axisz*s;
+	rotation_matrix.operator[](5) = axisy*axisy*t + c;
+	rotation_matrix.operator[](6) = axisy*axisz*t - axisx*s;
+	rotation_matrix.operator[](7) = 0;
+	rotation_matrix.operator[](8) = axisx*axisz*t - axisy*s;
+	rotation_matrix.operator[](9) = axisy*axisz*t + axisx*s;
+	rotation_matrix.operator[](10) = axisz*axisz*t + c;
+	rotation_matrix.operator[](11) = 0;
+	rotation_matrix.operator[](12) = 0;
+	rotation_matrix.operator[](13) = 0;
+	rotation_matrix.operator[](14) = 0;
+	rotation_matrix.operator[](15) = 1;
 }
 
 /* Atribui ao argumento de saída 'scale_matrix' uma matriz de escala.
