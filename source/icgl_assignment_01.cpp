@@ -54,6 +54,22 @@ void make_rotation_matrix(float angle_degrees, float axisx, float axisy, float a
  */
 void make_scale_matrix(float scalex, float scaley, float scalez, matrix_struct &scale_matrix) {
     // Calcular 'scale_matrix'.
+	scale_matrix.operator[](0) = scalex;
+	scale_matrix.operator[](1) = 0;
+	scale_matrix.operator[](2) = 0;
+	scale_matrix.operator[](3) = 0;
+	scale_matrix.operator[](4) = 0;
+	scale_matrix.operator[](5) = scaley;
+	scale_matrix.operator[](6) = 0;
+	scale_matrix.operator[](7) = 0;
+	scale_matrix.operator[](8) = 0;
+	scale_matrix.operator[](9) = 0;
+	scale_matrix.operator[](10) = scalez;
+	scale_matrix.operator[](11) = 0;
+	scale_matrix.operator[](12) = 0;
+	scale_matrix.operator[](13) = 0;
+	scale_matrix.operator[](14) = 0;
+	scale_matrix.operator[](15) = 1;
 }
 
 /* Atribui ao argumento de saída 'translation_matrix' uma matriz de translação.
@@ -66,6 +82,22 @@ void make_scale_matrix(float scalex, float scaley, float scalez, matrix_struct &
  */
 void make_translation_matrix(float deltax, float deltay, float deltaz, matrix_struct &translation_matrix) {
     // Calcular 'translation_matrix'.
+	translation_matrix.operator[](0) = 1;
+	translation_matrix.operator[](1) = 0;
+	translation_matrix.operator[](2) = 0;
+	translation_matrix.operator[](3) = 0;
+	translation_matrix.operator[](4) = 0;
+	translation_matrix.operator[](5) = 1;
+	translation_matrix.operator[](6) = 0;
+	translation_matrix.operator[](7) = 0;
+	translation_matrix.operator[](8) = 0;
+	translation_matrix.operator[](9) = 0;
+	translation_matrix.operator[](10) = 1;
+	translation_matrix.operator[](11) = 0;
+	translation_matrix.operator[](12) = deltax;
+	translation_matrix.operator[](13) = deltay;
+	translation_matrix.operator[](14) = deltaz;
+	translation_matrix.operator[](15) = 1;
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

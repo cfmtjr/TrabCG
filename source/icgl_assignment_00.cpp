@@ -40,6 +40,7 @@
  */
 void give_me_your_name(std::string &name) {
     // Atribuir texto a 'name'.
+	name = "Carlos Filipe Jr. e Pedro Yusim";
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////
