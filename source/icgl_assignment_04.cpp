@@ -46,8 +46,15 @@
  */
 void vertex_transformation(const location_struct &vertex_oc, const direction_struct &normal_oc, const matrix_struct &modelview_matrix, const matrix_struct &projection_matrix, location_struct &vertex_ec, location_struct &vertex_cc, direction_struct &unit_normal_ec) {
     // Calcular 'vertex_ec'.
+	for(int i = 0; i < vertex_ec.coords_count; i++)
+		vertex_ec[i] = vertex_oc.x * modelview_matrix(i,0) + vertex_oc.y * modelview_matrix(i,1) + vertex_oc.z * modelview_matrix(i,2) + vertex_oc.w * modelview_matrix(i,3);
     // Calcular 'vertex_cc'.
+	for(int i = 0; i < vertex_cc.coords_count; i++)
+		vertex_cc[i] = vertex_ec.x * projection_matrix(i,0) + vertex_ec.y * projection_matrix(i,1) + vertex_ec.z * projection_matrix(i,2) + vertex_ec.w * projection_matrix(i,3);
     // Calcular 'unit_normal_ec'.
+	float inverseW = 1/vertex_cc.w;
+	for(int i = 0; i < unit_normal_ec.coords_count; i++)
+		unit_normal_ec[i] = vertex_cc[i] * inverseW;
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////
