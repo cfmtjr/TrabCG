@@ -68,39 +68,22 @@ void make_lookat_matrix(float eyex, float eyey, float eyez, float centerx, float
 	axisy_y /= normalizationFactor;
 	axisy_z /= normalizationFactor;
 
-	lookat_matrix.operator[](0) = axisx_x;
-	lookat_matrix.operator[](1) = axisy_x;
-	lookat_matrix.operator[](2) = axisz_x;
-	lookat_matrix.operator[](3) = 0;
-	lookat_matrix.operator[](4) = axisx_y;
-	lookat_matrix.operator[](5) = axisy_y;
-	lookat_matrix.operator[](6) = axisz_y;
-	lookat_matrix.operator[](7) = 0;
-	lookat_matrix.operator[](8) = axisx_z;
-	lookat_matrix.operator[](9) = axisy_z;
-	lookat_matrix.operator[](10) = axisz_z;	
-	lookat_matrix.operator[](11) = 0;
-	lookat_matrix.operator[](12) = (-eyex*axisx_x) + (-eyey*axisx_y) + (-eyez*axisx_z);
-	lookat_matrix.operator[](13) = (-eyex*axisy_x) + (-eyey*axisy_y) + (-eyez*axisy_z);
-	lookat_matrix.operator[](14) = (-eyex*axisz_x) + (-eyey*axisz_y) + (-eyez*axisz_z);
-	lookat_matrix.operator[](15) = 1;
-
-	//lookat_matrix.operator[](0) = axisx_x;
-	//lookat_matrix.operator[](1) = axisx_y;
-	//lookat_matrix.operator[](2) = axisx_z;
-	//lookat_matrix.operator[](3) = (-eyex*axisx_x) + (-eyey*axisx_y) + (-eyez*axisx_z);
-	//lookat_matrix.operator[](4) = axisy_x;
-	//lookat_matrix.operator[](5) = axisy_y;
-	//lookat_matrix.operator[](6) = axisy_z;
-	//lookat_matrix.operator[](7) = (-eyex*axisy_x) + (-eyey*axisy_y) + (-eyez*axisy_z);
-	//lookat_matrix.operator[](8) = axisz_x;
-	//lookat_matrix.operator[](9) = axisz_y;
-	//lookat_matrix.operator[](10) = axisz_z;	
-	//lookat_matrix.operator[](11) = (-eyex*axisz_x) + (-eyey*axisz_y) + (-eyez*axisz_z);
-	//lookat_matrix.operator[](12) = 0;
-	//lookat_matrix.operator[](13) = 0;
-	//lookat_matrix.operator[](14) = 0;
-	//lookat_matrix.operator[](15) = 1;
+	lookat_matrix(0,0) = axisx_x;
+	lookat_matrix(0,1) = axisy_x;
+	lookat_matrix(0,2) = axisz_x;
+	lookat_matrix(0,3) = eyex;
+	lookat_matrix(1,0) = axisx_y;
+	lookat_matrix(1,1) = axisy_y;
+	lookat_matrix(1,2) = axisz_y;
+	lookat_matrix(1,3) = eyey;
+	lookat_matrix(2,0) = axisx_z;
+	lookat_matrix(2,1) = axisy_z;
+	lookat_matrix(2,2) = axisz_z;	
+	lookat_matrix(2,3) = eyez;
+	lookat_matrix(3,0) = 0;
+	lookat_matrix(3,1) = 0;
+	lookat_matrix(3,2) = 0;
+	lookat_matrix(3,3) = 1;
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

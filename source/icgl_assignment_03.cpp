@@ -46,127 +46,22 @@ void make_perspective_matrix(float fovy, float aspect, float znear, float zfar, 
 	
 	float f = 1/tan(fovy*pi/360);
 	
-	/*perspective_matrix.operator[](0)  = f/aspect;
-	perspective_matrix.operator[](1)  = 0;
-	perspective_matrix.operator[](2)  = 0;
-	perspective_matrix.operator[](3)  = 0;
-	perspective_matrix.operator[](4)  = 0;
-	perspective_matrix.operator[](5)  = f;
-	perspective_matrix.operator[](6)  = 0;
-	perspective_matrix.operator[](7)  = 0;
-	perspective_matrix.operator[](8)  = 0;
-	perspective_matrix.operator[](9)  = 0;
-	perspective_matrix.operator[](10) = (zfar+znear)/(znear-zfar);
-	perspective_matrix.operator[](11) = (2*zfar*znear)/(znear-zfar);
-	perspective_matrix.operator[](12) = 0;
-	perspective_matrix.operator[](13) = 0;
-	perspective_matrix.operator[](14) = -1;
-	perspective_matrix.operator[](15) = 0;*/
-
-	//perspective_matrix.operator[](0)  = f;
-	//perspective_matrix.operator[](1)  = 0;
-	//perspective_matrix.operator[](2)  = 0;
-	//perspective_matrix.operator[](3)  = 0;
-	//perspective_matrix.operator[](4)  = 0;
-	//perspective_matrix.operator[](5)  = f*aspect;
-	//perspective_matrix.operator[](6)  = 0;
-	//perspective_matrix.operator[](7)  = 0;
-	//perspective_matrix.operator[](8)  = 0;
-	//perspective_matrix.operator[](9)  = 0;
-	//perspective_matrix.operator[](10) = (zfar+znear)/(zfar-znear);
-	//perspective_matrix.operator[](11) = -(2*zfar*znear)/(zfar-znear);
-	//perspective_matrix.operator[](12) = 0;
-	//perspective_matrix.operator[](13) = 0;
-	//perspective_matrix.operator[](14) = 1;
-	//perspective_matrix.operator[](15) = 0;
-
-	/*perspective_matrix.operator[](0)  = f/aspect;
-	perspective_matrix.operator[](1)  = 0;
-	perspective_matrix.operator[](2)  = 0;
-	perspective_matrix.operator[](3)  = 0;
-	perspective_matrix.operator[](4)  = 0;
-	perspective_matrix.operator[](5)  = f;
-	perspective_matrix.operator[](6)  = 0;
-	perspective_matrix.operator[](7)  = 0;
-	perspective_matrix.operator[](8)  = 0;
-	perspective_matrix.operator[](9)  = 0;
-	perspective_matrix.operator[](10) = zfar/(zfar-znear);
-	perspective_matrix.operator[](11) = -(zfar*znear)/(zfar-znear);
-	perspective_matrix.operator[](12) = 0;
-	perspective_matrix.operator[](13) = 0;
-	perspective_matrix.operator[](14) = 1;
-	perspective_matrix.operator[](15) = 0;*/
-
-
-	
-	float yScale = 1/tan(fovy*pi/360);
-	float xScale = yScale / aspect;
-
-	perspective_matrix.operator[](0)  = f/aspect;
-	perspective_matrix.operator[](1)  = 0;
-	perspective_matrix.operator[](2)  = 0;
-	perspective_matrix.operator[](3)  = 0;
-	perspective_matrix.operator[](4)  = 0;
-	perspective_matrix.operator[](5)  = f;
-	perspective_matrix.operator[](6)  = 0;
-	perspective_matrix.operator[](7)  = 0;
-	perspective_matrix.operator[](8)  = 0;
-	perspective_matrix.operator[](9)  = 0;
-	perspective_matrix.operator[](10) = zfar/(znear-zfar);
-	perspective_matrix.operator[](11) = -1;
-	perspective_matrix.operator[](12) = 0;
-	perspective_matrix.operator[](13) = 0;
-	perspective_matrix.operator[](14) = znear*zfar/(znear-zfar);
-	perspective_matrix.operator[](15) = 0;
-
-	/*float ymax = znear * tan(fovy * pi/360);
-	float ymin = -ymax;
-	float xmax = ymax * aspect;
-	float xmin = ymin * aspect;
-	float width = xmax - xmin;
-	float height = ymax - ymin;
-	float depth = zfar - znear;
-	float q = -(zfar + znear) / depth;
-	float qn = -2 * (zfar * znear) / depth;
-	float w = 2 * znear / width;
-	w = w / aspect;
-	float h = 2 * znear / height;
-
-	perspective_matrix.operator[](0)  = w;
-	perspective_matrix.operator[](1)  = 0;
-	perspective_matrix.operator[](2)  = 0;
-	perspective_matrix.operator[](3)  = 0;
-	perspective_matrix.operator[](4)  = 0;
-	perspective_matrix.operator[](5)  = h;
-	perspective_matrix.operator[](6)  = 0;
-	perspective_matrix.operator[](7)  = 0;
-	perspective_matrix.operator[](8)  = 0;
-	perspective_matrix.operator[](9)  = 0;
-	perspective_matrix.operator[](10) = q;
-	perspective_matrix.operator[](11) = -1;
-	perspective_matrix.operator[](12) = 0;
-	perspective_matrix.operator[](13) = 0;
-	perspective_matrix.operator[](14) = qn;
-	perspective_matrix.operator[](15) = 0;*/
-
-	//float fh = tan(fovy/360*pi)*znear;
-	//float fw = fh * aspect;
-	//perspective_matrix.operator[](0) = znear/fw; //00
-	//perspective_matrix.operator[](1) = 0; //01
-	//perspective_matrix.operator[](2) = 0; //02
-	//perspective_matrix.operator[](3) = 0; //03
-	//perspective_matrix.operator[](4) = 0; //10
-	//perspective_matrix.operator[](5) = znear/fh; //11
-	//perspective_matrix.operator[](6) = 0; //12
-	//perspective_matrix.operator[](7) = 0; //13
-	//perspective_matrix.operator[](8) = 0; //20
-	//perspective_matrix.operator[](9) = 0; //21
-	//perspective_matrix.operator[](10) = -(zfar+znear)/(zfar-znear); //22
-	//perspective_matrix.operator[](11) = -2.0f*(zfar*znear)/(zfar-znear); //23
-	//perspective_matrix.operator[](12) = 0; //30
-	//perspective_matrix.operator[](13) = 0; //31
-	//perspective_matrix.operator[](14) = 1; //32
-	//perspective_matrix.operator[](15) = 0; //33
+	perspective_matrix(0,0)  = f/aspect;
+	perspective_matrix(0,1)  = 0;
+	perspective_matrix(0,2)  = 0;
+	perspective_matrix(0,3)  = 0;
+	perspective_matrix(1,0)  = 0;
+	perspective_matrix(1,1)  = f;
+	perspective_matrix(1,2)  = 0;
+	perspective_matrix(1,3)  = 0;
+	perspective_matrix(2,0)  = 0;
+	perspective_matrix(2,1)  = 0;
+	perspective_matrix(2,2) = (zfar+znear)/(znear-zfar);
+	perspective_matrix(2,3) = (2*zfar*znear)/(znear-zfar);
+	perspective_matrix(3,0) = 0;
+	perspective_matrix(3,1) = 0;
+	perspective_matrix(3,2) = -1;
+	perspective_matrix(3,3) = 0;
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////
