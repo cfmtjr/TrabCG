@@ -24,6 +24,7 @@
  * Conjunto de operações utilizadas para ensino de Pipeline Gráfico no Instito de Computação (IC) da Universidade Federal Fluminense (UFF).
  */
 #include <icgl.h>
+#include <iostream>
 
 #if defined(ICGL_ASSIGNMENT_04_VERTEX_TRANSFORMATION)
 
@@ -53,17 +54,22 @@ void vertex_transformation(const location_struct &vertex_oc, const direction_str
 		vertex_cc[i] = vertex_ec.x * projection_matrix(i,0) + vertex_ec.y * projection_matrix(i,1) + vertex_ec.z * projection_matrix(i,2) + vertex_ec.w * projection_matrix(i,3);
     // Calcular 'unit_normal_ec'.
 	//float inverseW = 1/vertex_cc.w;
-	//for(int i = 0; i < unit_normal_ec.coords_count; i++)
-	//	unit_normal_ec[i] = vertex_cc[i] * inverseW;
-	matrix_struct inverse = matrix_struct(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-	invert(modelview_matrix, inverse);
-	matrix_struct transpost = matrix_struct(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-	transpose(inverse, transpost);
-	unit_normal_ec = direction_struct(0,0,0);
-	for(int i = 0; i < transpost.rows_count - 1; i++)
+	matrix_struct inverse = matrix_struct();
+	//invert(modelview_matrix, inverse);
+	matrix_struct transpost = matrix_struct();
+	//transpose(inverse, transpost);
+	//unit_normal_ec = direction_struct(0,0,0);
+	/*for(int i = 0; i < transpost.rows_count; i++)
 		for(int j = 0; j < normal_oc.coords_count; j++)
-			unit_normal_ec[i] += normal_oc[j]*transpost(j,i);
+			unit_normal_ec[i] += normal_oc[j]*transpost(j,i);*/
+	invert(modelview_matrix, inverse);
+	transpose(inverse, transpost);
+	for(int i = 0; i < unit_normal_ec.coords_count; i++)
+		unit_normal_ec[i] = normal_oc.x * transpost(i,0) + normal_oc.y * transpost(i,1) + normal_oc.z * transpost(i,2);
 	normalize(unit_normal_ec);
+
+
+
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

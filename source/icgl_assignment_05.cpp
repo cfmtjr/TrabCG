@@ -54,39 +54,25 @@
 void vertex_lighting(const location_struct &vertex_ec, const direction_struct &unit_normal_ec, const color_struct &base_color, bool lighting_enabled, const color_struct &material_ambient, const color_struct &material_diffuse, const color_struct &material_specular, float material_shininess, const location_struct &light_ec, const color_struct &light_ambient, const color_struct &light_diffuse, const color_struct &light_specular, color_struct &vertex_color) {
     // Calcular 'vertex_color'.
 	if(lighting_enabled){
-		/*float materialAmbientLength = sqrt(material_ambient.r*material_ambient.r + material_ambient.g*material_ambient.g + material_ambient.b*material_ambient.b + material_ambient.a*material_ambient.a);
-		float lightAmbientLength = sqrt(light_ambient.r*light_ambient.r + light_ambient.g*light_ambient.g + light_ambient.b*light_ambient.b + light_ambient.a*light_ambient.a);
-		float Ka = materialAmbientLength/lightAmbientLength;*/
-		color_struct Ia = color_struct(0,0,0,0);
-		for(int i = 0; i < Ia.channels_count - 1; i++)
-			Ia[i] = light_ambient[i] * material_ambient[i];
-
-		/*float materialdiffuseLength = sqrt(material_diffuse.r*material_diffuse.r + material_diffuse.g*material_diffuse.g + material_diffuse.b*material_diffuse.b + material_diffuse.a*material_diffuse.a);
-		float lightdiffuseLength = sqrt(light_diffuse.r*light_diffuse.r + light_diffuse.g*light_diffuse.g + light_diffuse.b*light_diffuse.b + light_diffuse.a*light_diffuse.a);
-		float Kd = materialdiffuseLength/lightdiffuseLength;*/
-
-		direction_struct lightDir = direction_struct(light_ec.x, light_ec.y, light_ec.z);
+		direction_struct lightDir = direction_struct(-light_ec.x, -light_ec.y, -light_ec.z);
 		normalize(lightDir);
 
-		float ldotn = maxima(dot(lightDir, unit_normal_ec), 0);
+		float ldotn = maxValue(dot(lightDir, unit_normal_ec), 0);
 		color_struct Id = color_struct(0,0,0,0);
 		for(int i = 0; i < Id.channels_count - 1; i++)
-			Id[i] = light_diffuse[i] * material_diffuse[i] * ldotn;
+			Id[i] = material_ambient[i] * light_ambient[i] + material_diffuse[i] * light_diffuse[i] * ldotn;
 
-		/*float materialspecularLength = sqrt(material_specular.r*material_specular.r + material_specular.g*material_specular.g + material_specular.b*material_specular.b + material_specular.a*material_specular.a);
-		float lightspecularLength = sqrt(light_specular.r*light_specular.r + light_specular.g*light_specular.g + light_specular.b*light_specular.b + light_specular.a*light_specular.a);
-		float Ks = materialspecularLength/lightspecularLength;*/
 		direction_struct eyeDir = direction_struct(vertex_ec.x, vertex_ec.y, vertex_ec.z);
 		normalize(eyeDir);
 
 		direction_struct half = direction_struct(eyeDir.x + lightDir.x, eyeDir.y + lightDir.y, eyeDir.z + lightDir.z);
 		normalize(half);
-		float hdotn = maxima(dot(half, unit_normal_ec), 0);
+		float hdotn = maxValue(dot(half, unit_normal_ec), 0);
 		color_struct Is = color_struct(0,0,0,0);
 		for(int i = 0; i < Is.channels_count - 1; i++)
-			Is[i] = light_specular[i] * material_specular[i] * pow(hdotn, material_shininess);
+			Is[i] = material_specular[i] * light_specular[i]* pow(hdotn, material_shininess);
 		
-		vertex_color = color_struct(Ia[0] + Id[0] + Is[0], Ia[1] + Id[1] + Is[1], Ia[2] + Id[2] + Is[2], 1.0f);
+		vertex_color = color_struct(Id[0] + Is[0],Id[1] + Is[1], Id[2] + Is[2], 1.0f);
 	}else
 		vertex_color = base_color;
 

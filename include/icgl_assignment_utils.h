@@ -35,7 +35,7 @@ void normalize(direction_struct& vect);
 void normalize(location_struct& vect);
 float dot(direction_struct vect1, direction_struct vect2);
 float dot(location_struct vect1, location_struct vect2);
-float maxima(float a, float b);
+float maxValue(float a, float b);
 // FIM DA DEFINIÇÃO DAS ROTINAS ÚTEIS IMPLEMENTADAS PELO ALUNO //////////////////////////////////////////////////////////////
 
 #endif

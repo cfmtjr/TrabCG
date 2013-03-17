@@ -95,7 +95,7 @@ float dot(location_struct vect1, location_struct vect2){
 	return vect1.x*vect2.x + vect1.y*vect2.y + vect1.z*vect2.z + vect1.w*vect2.w;
 }
 
-float maxima(float a, float b){
+float maxValue(float a, float b){
 	return a > b ? a : b;
 }
 
