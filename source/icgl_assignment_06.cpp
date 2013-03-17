@@ -24,6 +24,7 @@
  * Conjunto de operações utilizadas para ensino de Pipeline Gráfico no Instito de Computação (IC) da Universidade Federal Fluminense (UFF).
  */
 #include <icgl.h>
+#include <iostream>
 
 #if defined(ICGL_ASSIGNMENT_06_PRIMITIVE_ASSEMBLY_CLIPPING_AND_CULLING)
 
@@ -48,6 +49,23 @@
  */
 void make_segments(const std::vector<location_struct> &vertices_cc, const std::vector<color_struct> &vertices_colors, const std::vector<texcoord_struct> &vertices_texcoords, const std::vector<int> &vertices_texture_ids, std::vector<segment_struct> &primitives) {
     // Calcular 'primitives'.
+	segment_struct tmp = segment_struct();
+		for(int i = 0; i < vertices_cc.size(); i++){
+			int aux = i%2;
+			tmp.color[aux].r = vertices_colors[i].r;
+			tmp.color[aux].g = vertices_colors[i].g;
+			tmp.color[aux].b = vertices_colors[i].b;
+			tmp.color[aux].a = vertices_colors[i].a;
+			tmp.texcoord[aux].u = vertices_texcoords[i].u;
+			tmp.texcoord[aux].v = vertices_texcoords[i].v;
+			tmp.vertex_cc[aux].x = vertices_cc[i].x;
+			tmp.vertex_cc[aux].y = vertices_cc[i].y;
+			tmp.vertex_cc[aux].z = vertices_cc[i].z;
+			tmp.vertex_cc[aux].w = vertices_cc[i].w;
+			tmp.texture_id = vertices_texture_ids[i];
+			if(aux == 1)
+				primitives.push_back(tmp);
+		}
 }
 
 /* Monta triângulos a partir das listas de propriedades de vértices informadas. Esta rotina também é responsável por realizar
@@ -68,11 +86,32 @@ void make_segments(const std::vector<location_struct> &vertices_cc, const std::v
  *                                 'cw_orientation') ou sentido anti-horário (counterclockwise, 'ccw_orientation').
  *
  *   Argumentos de saída:
- *     'primitives'              : Lista de triângulos completamente contidos no volume de visualização e orientadas conforme a
+ *     'primitives'              : Lista de triângulos completamente contidos no volume de visualização e orientadas conforme ap
  *                                 convensão para faces frontais, caso a supressão de faces traseiras esteja habilitada.
  */
 void make_triangles(const std::vector<location_struct> &vertices_cc, const std::vector<color_struct> &vertices_colors, const std::vector<texcoord_struct> &vertices_texcoords, const std::vector<int> &vertices_texture_ids, bool backface_culling_enabled, orientation_type front_face_orientation, std::vector<triangle_struct> &primitives) {
     // Calcular 'primitives'.
+	if(backface_culling_enabled && front_face_orientation == 0){
+		
+	}else{
+		triangle_struct tmp = triangle_struct();
+		for(int i = 0; i < vertices_cc.size(); i++){
+			int aux = i%3;
+			tmp.color[aux].r = vertices_colors[i].r;
+			tmp.color[aux].g = vertices_colors[i].g;
+			tmp.color[aux].b = vertices_colors[i].b;
+			tmp.color[aux].a = vertices_colors[i].a;
+			tmp.texcoord[aux].u = vertices_texcoords[i].u;
+			tmp.texcoord[aux].v = vertices_texcoords[i].v;
+			tmp.vertex_cc[aux].x = vertices_cc[i].x;
+			tmp.vertex_cc[aux].y = vertices_cc[i].y;
+			tmp.vertex_cc[aux].z = vertices_cc[i].z;
+			tmp.vertex_cc[aux].w = vertices_cc[i].w;
+			tmp.texture_id = vertices_texture_ids[i];
+			if(aux == 2)
+				primitives.push_back(tmp);
+		}
+	}
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

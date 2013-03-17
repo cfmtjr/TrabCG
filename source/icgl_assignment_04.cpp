@@ -49,19 +49,14 @@ void vertex_transformation(const location_struct &vertex_oc, const direction_str
     // Calcular 'vertex_ec'.
 	for(int i = 0; i < vertex_ec.coords_count; i++)
 		vertex_ec[i] = vertex_oc.x * modelview_matrix(i,0) + vertex_oc.y * modelview_matrix(i,1) + vertex_oc.z * modelview_matrix(i,2) + vertex_oc.w * modelview_matrix(i,3);
-    // Calcular 'vertex_cc'.	
+    
+	// Calcular 'vertex_cc'.
 	for(int i = 0; i < vertex_cc.coords_count; i++)
 		vertex_cc[i] = vertex_ec.x * projection_matrix(i,0) + vertex_ec.y * projection_matrix(i,1) + vertex_ec.z * projection_matrix(i,2) + vertex_ec.w * projection_matrix(i,3);
-    // Calcular 'unit_normal_ec'.
-	//float inverseW = 1/vertex_cc.w;
+    
+	// Calcular 'unit_normal_ec'.
 	matrix_struct inverse = matrix_struct();
-	//invert(modelview_matrix, inverse);
 	matrix_struct transpost = matrix_struct();
-	//transpose(inverse, transpost);
-	//unit_normal_ec = direction_struct(0,0,0);
-	/*for(int i = 0; i < transpost.rows_count; i++)
-		for(int j = 0; j < normal_oc.coords_count; j++)
-			unit_normal_ec[i] += normal_oc[j]*transpost(j,i);*/
 	invert(modelview_matrix, inverse);
 	transpose(inverse, transpost);
 	for(int i = 0; i < unit_normal_ec.coords_count; i++)
