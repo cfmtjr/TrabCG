@@ -24,62 +24,11 @@
  * Conjunto de operações utilizadas para ensino de Pipeline Gráfico no Instito de Computação (IC) da Universidade Federal Fluminense (UFF).
  */
 #include <icgl.h>
-#include <iostream>
 
 #if defined(ICGL_ASSIGNMENT_04_VERTEX_TRANSFORMATION)
 
 
 // INÍCIO DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO /////////////////////////////
-
-void invert(const matrix_struct &modelview_matrix,matrix_struct &matrizInvertida) 
-{
-
-	float s0 = modelview_matrix(0,0) * modelview_matrix(1,1) - modelview_matrix(1,0) * modelview_matrix(0,1);
-	float s1 = modelview_matrix(0,0) * modelview_matrix(1,2) - modelview_matrix(1,0) * modelview_matrix(0,2);
-	float s2 = modelview_matrix(0,0) * modelview_matrix(1,3) - modelview_matrix(1,0) * modelview_matrix(0,3);
-	float s3 = modelview_matrix(0,1) * modelview_matrix(1,2) - modelview_matrix(1,1) * modelview_matrix(0,2);
-	float s4 = modelview_matrix(0,1) * modelview_matrix(1,3) - modelview_matrix(1,1) * modelview_matrix(0,3);
-	float s5 = modelview_matrix(0,2) * modelview_matrix(1,3) - modelview_matrix(1,2) * modelview_matrix(0,3);
-
-	float c5 = modelview_matrix(2,2) * modelview_matrix(3,3) - modelview_matrix(3,2) * modelview_matrix(2,3);
-	float c4 = modelview_matrix(2,1) * modelview_matrix(3,3) - modelview_matrix(3,1) * modelview_matrix(2,3);
-	float c3 = modelview_matrix(2,1) * modelview_matrix(3,2) - modelview_matrix(3,1) * modelview_matrix(2,2);
-	float c2 = modelview_matrix(2,0) * modelview_matrix(3,3) - modelview_matrix(3,0) * modelview_matrix(2,3);
-	float c1 = modelview_matrix(2,0) * modelview_matrix(3,2) - modelview_matrix(3,0) * modelview_matrix(2,2);
-	float c0 = modelview_matrix(2,0) * modelview_matrix(3,1) - modelview_matrix(3,0) * modelview_matrix(2,1);
-    
-
-    // Should check for 0 determinant
-
-    float invdet  = 1 / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
-
-	matrizInvertida(0,0) = ( modelview_matrix(1,1) * c5 -  modelview_matrix(1,2) * c4 +  modelview_matrix(1,3) * c3) * invdet;
-	matrizInvertida(0,1) = ( -modelview_matrix(0,1) * c5 +  modelview_matrix(0,2) * c4 -  modelview_matrix(0,3) * c3) * invdet;
-	matrizInvertida(0,2) = ( modelview_matrix(3,1) * s5 -  modelview_matrix(3,2) * s4 +  modelview_matrix(3,3) * s3) * invdet;
-	matrizInvertida(0,3) = ( -modelview_matrix(2,1) * s5 +  modelview_matrix(2,2) * s4 -  modelview_matrix(2,3) * s3) * invdet;
-
-	matrizInvertida(1,0) = (- modelview_matrix(1,0) * c5 +  modelview_matrix(1,2) * c2 -  modelview_matrix(1,3) * c1) * invdet;
-	matrizInvertida(1,1) = ( modelview_matrix(0,0) * c5 -  modelview_matrix(0,2) * c2 +  modelview_matrix(0,3) * c1) * invdet;
-	matrizInvertida(1,2) = (- modelview_matrix(3,0) * s5 +  modelview_matrix(3,2) * s2 -  modelview_matrix(3,3) * s1) * invdet;
-	matrizInvertida(1,3) = ( modelview_matrix(2,0) * s5 -  modelview_matrix(2,2) * s2 +  modelview_matrix(2,3) * s1) * invdet;
-	
-	matrizInvertida(2,0) = ( modelview_matrix(1,0) * c4 -  modelview_matrix(1,1) * c2 +  modelview_matrix(1,3) * c0) * invdet;
-	matrizInvertida(2,1) = ( -modelview_matrix(0,0) * c4 +  modelview_matrix(0,1) * c2 -  modelview_matrix(0,3) *c0) * invdet;
-	matrizInvertida(2,2) = ( modelview_matrix(3,0) * s4 -  modelview_matrix(3,1) * s2 +  modelview_matrix(3,3) * s0) * invdet;
-	matrizInvertida(2,3) = ( -modelview_matrix(2,0) * s4 +  modelview_matrix(2,1) * s2 - modelview_matrix(2,3) * s0) * invdet;
-   
-	matrizInvertida(3,0) = ( -modelview_matrix(1,0) * c3 + modelview_matrix(1,1) * c1 -  modelview_matrix(1,2) * c0) * invdet;
-	matrizInvertida(3,1) = ( modelview_matrix(0,0) * c3 -  modelview_matrix(0,1) * c1 +  modelview_matrix(0,2) * c0) * invdet;
-	matrizInvertida(3,2) = ( -modelview_matrix(3,0) * s3 +  modelview_matrix(3,1) * s1 -  modelview_matrix(3,2) * s0) * invdet;
-	matrizInvertida(3,3) = ( modelview_matrix(2,0) * s3 -  modelview_matrix(2,1) * s1 +  modelview_matrix(2,2) * s0) * invdet;
-}
-
-void transpose(const matrix_struct &matriz, matrix_struct &matrizTransposta){
-	for(int i = 0; i < matrizTransposta.rows_count; i++)
-		for(int j = 0; j < matrizTransposta.cols_count; j++)
-			matrizTransposta(i,j) = matriz(j,i);
-}
-
 
 /* Aplica transformações geométrica à localização do vértice corrente e ao vetor normal associado a ele.
  *
@@ -106,18 +55,15 @@ void vertex_transformation(const location_struct &vertex_oc, const direction_str
 	//float inverseW = 1/vertex_cc.w;
 	//for(int i = 0; i < unit_normal_ec.coords_count; i++)
 	//	unit_normal_ec[i] = vertex_cc[i] * inverseW;
-	matrix_struct inverse = matrix_struct();
+	matrix_struct inverse = matrix_struct(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	invert(modelview_matrix, inverse);
-	matrix_struct transpost = matrix_struct();
+	matrix_struct transpost = matrix_struct(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	transpose(inverse, transpost);
-
+	unit_normal_ec = direction_struct(0,0,0);
 	for(int i = 0; i < transpost.rows_count - 1; i++)
 		for(int j = 0; j < normal_oc.coords_count; j++)
-		unit_normal_ec[i] += normal_oc[j]*transpost(j,i);
-	float normalizationFactor = sqrtf(unit_normal_ec.x*unit_normal_ec.x + unit_normal_ec.y*unit_normal_ec.y + unit_normal_ec.z*unit_normal_ec.z);
-	for(int i = 0; i < unit_normal_ec.coords_count; i++)
-		unit_normal_ec[i] /= normalizationFactor;
-
+			unit_normal_ec[i] += normal_oc[j]*transpost(j,i);
+	normalize(unit_normal_ec);
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

@@ -29,7 +29,13 @@
 
 /* Coloque aqui a definição de suas rotinas auxiliares.
  */
-
+void invert(const matrix_struct &modelview_matrix,matrix_struct &matrizInvertida);
+void transpose(const matrix_struct &matriz, matrix_struct &matrizTransposta);
+void normalize(direction_struct& vect);
+void normalize(location_struct& vect);
+float dot(direction_struct vect1, direction_struct vect2);
+float dot(location_struct vect1, location_struct vect2);
+float maxima(float a, float b);
 // FIM DA DEFINIÇÃO DAS ROTINAS ÚTEIS IMPLEMENTADAS PELO ALUNO //////////////////////////////////////////////////////////////
 
 #endif
