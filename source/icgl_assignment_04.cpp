@@ -67,9 +67,6 @@ void vertex_transformation(const location_struct &vertex_oc, const direction_str
 	for(int i = 0; i < unit_normal_ec.coords_count; i++)
 		unit_normal_ec[i] = normal_oc.x * transpost(i,0) + normal_oc.y * transpost(i,1) + normal_oc.z * transpost(i,2);
 	normalize(unit_normal_ec);
-
-
-
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////

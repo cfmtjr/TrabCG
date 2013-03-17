@@ -54,11 +54,11 @@
 void vertex_lighting(const location_struct &vertex_ec, const direction_struct &unit_normal_ec, const color_struct &base_color, bool lighting_enabled, const color_struct &material_ambient, const color_struct &material_diffuse, const color_struct &material_specular, float material_shininess, const location_struct &light_ec, const color_struct &light_ambient, const color_struct &light_diffuse, const color_struct &light_specular, color_struct &vertex_color) {
     // Calcular 'vertex_color'.
 	if(lighting_enabled){
-		direction_struct lightDir = direction_struct(-light_ec.x, -light_ec.y, -light_ec.z);
+		direction_struct lightDir = direction_struct(light_ec.x - vertex_ec.x, light_ec.y - vertex_ec.y, light_ec.z - vertex_ec.z);
 		normalize(lightDir);
 
 		float ldotn = maxValue(dot(lightDir, unit_normal_ec), 0);
-		color_struct Id = color_struct(0,0,0,0);
+		color_struct Id = color_struct();
 		for(int i = 0; i < Id.channels_count - 1; i++)
 			Id[i] = material_ambient[i] * light_ambient[i] + material_diffuse[i] * light_diffuse[i] * ldotn;
 
@@ -68,7 +68,7 @@ void vertex_lighting(const location_struct &vertex_ec, const direction_struct &u
 		direction_struct half = direction_struct(eyeDir.x + lightDir.x, eyeDir.y + lightDir.y, eyeDir.z + lightDir.z);
 		normalize(half);
 		float hdotn = maxValue(dot(half, unit_normal_ec), 0);
-		color_struct Is = color_struct(0,0,0,0);
+		color_struct Is = color_struct();
 		for(int i = 0; i < Is.channels_count - 1; i++)
 			Is[i] = material_specular[i] * light_specular[i]* pow(hdotn, material_shininess);
 		
