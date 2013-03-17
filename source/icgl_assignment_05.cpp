@@ -62,7 +62,7 @@ void vertex_lighting(const location_struct &vertex_ec, const direction_struct &u
 		for(int i = 0; i < Id.channels_count - 1; i++)
 			Id[i] = material_ambient[i] * light_ambient[i] + material_diffuse[i] * light_diffuse[i] * ldotn;
 
-		direction_struct eyeDir = direction_struct(vertex_ec.x, vertex_ec.y, vertex_ec.z);
+		direction_struct eyeDir = direction_struct(-vertex_ec.x, -vertex_ec.y, -vertex_ec.z);
 		normalize(eyeDir);
 
 		direction_struct half = direction_struct(eyeDir.x + lightDir.x, eyeDir.y + lightDir.y, eyeDir.z + lightDir.z);
