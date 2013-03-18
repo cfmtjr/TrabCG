@@ -91,27 +91,57 @@ void make_segments(const std::vector<location_struct> &vertices_cc, const std::v
  */
 void make_triangles(const std::vector<location_struct> &vertices_cc, const std::vector<color_struct> &vertices_colors, const std::vector<texcoord_struct> &vertices_texcoords, const std::vector<int> &vertices_texture_ids, bool backface_culling_enabled, orientation_type front_face_orientation, std::vector<triangle_struct> &primitives) {
     // Calcular 'primitives'.
-	if(backface_culling_enabled && front_face_orientation == 0){
-		
-	}else{
-		triangle_struct tmp = triangle_struct();
-		for(int i = 0; i < vertices_cc.size(); i++){
-			int aux = i%3;
-			tmp.color[aux].r = vertices_colors[i].r;
-			tmp.color[aux].g = vertices_colors[i].g;
-			tmp.color[aux].b = vertices_colors[i].b;
-			tmp.color[aux].a = vertices_colors[i].a;
-			tmp.texcoord[aux].u = vertices_texcoords[i].u;
-			tmp.texcoord[aux].v = vertices_texcoords[i].v;
-			tmp.vertex_cc[aux].x = vertices_cc[i].x;
-			tmp.vertex_cc[aux].y = vertices_cc[i].y;
-			tmp.vertex_cc[aux].z = vertices_cc[i].z;
-			tmp.vertex_cc[aux].w = vertices_cc[i].w;
-			tmp.texture_id = vertices_texture_ids[i];
-			if(aux == 2)
-				primitives.push_back(tmp);
-		}
+	bool pertence = true;
+	std::vector<triangle_struct> result;
+	triangle_struct tmp = triangle_struct();
+	for(int i = 0; i < vertices_cc.size(); i++){
+		int aux = i%3;
+		tmp.color[aux].r = vertices_colors[i].r;
+		tmp.color[aux].g = vertices_colors[i].g;
+		tmp.color[aux].b = vertices_colors[i].b;
+		tmp.color[aux].a = vertices_colors[i].a;
+		tmp.texcoord[aux].u = vertices_texcoords[i].u;
+		tmp.texcoord[aux].v = vertices_texcoords[i].v;
+		tmp.vertex_cc[aux].x = vertices_cc[i].x;
+		tmp.vertex_cc[aux].y = vertices_cc[i].y;
+		tmp.vertex_cc[aux].z = vertices_cc[i].z;
+		tmp.vertex_cc[aux].w = vertices_cc[i].w;
+		tmp.texture_id = vertices_texture_ids[i];
+		if(!((vertices_cc[i].x > -vertices_cc[i].w && vertices_cc[i].x < vertices_cc[i].w)
+			&& (vertices_cc[i].y > -vertices_cc[i].w && vertices_cc[i].y < vertices_cc[i].w)
+			&& (vertices_cc[i].z > -vertices_cc[i].w && vertices_cc[i].z < vertices_cc[i].w))
+			&& pertence)
+			pertence = false;
+		if(aux == 2)
+			if(pertence){
+				result.push_back(tmp);
+			}else
+				pertence = true;
 	}
+	if(backface_culling_enabled){
+		direction_struct normal, left, right;
+		if(front_face_orientation == 0){
+			for(int i = 0; i < result.size(); i++){
+				left = direction_struct(result[i].vertex_cc[1].x - result[i].vertex_cc[0].x, result[i].vertex_cc[1].y - result[i].vertex_cc[0].y, result[i].vertex_cc[1].z - result[i].vertex_cc[0].z);
+				right = direction_struct(result[i].vertex_cc[2].x - result[i].vertex_cc[0].x, result[i].vertex_cc[2].y - result[i].vertex_cc[0].y, result[i].vertex_cc[2].z - result[i].vertex_cc[0].z);
+				normal = direction_struct(left.y*right.z - left.z*right.y, left.z*right.x - left.x*right.z, left.x*right.y - left.y*right.x);
+				float angle = dot(normal, direction_struct(result[i].vertex_cc[0].x, result[i].vertex_cc[0].y, result[i].vertex_cc[0].z));
+				if(angle < 0)
+					primitives.push_back(result[i]);
+			}
+		}else{
+			for(int i = 0; i < result.size(); i++){
+				left = direction_struct(result[i].vertex_cc[1].x - result[i].vertex_cc[0].x, result[i].vertex_cc[1].y - result[i].vertex_cc[0].y, result[i].vertex_cc[1].z - result[i].vertex_cc[0].z);
+				right = direction_struct(result[i].vertex_cc[2].x - result[i].vertex_cc[0].x, result[i].vertex_cc[2].y - result[i].vertex_cc[0].y, result[i].vertex_cc[2].z - result[i].vertex_cc[0].z);
+				normal = direction_struct(left.y*right.z - left.z*right.y, left.z*right.x - left.x*right.z, left.x*right.y - left.y*right.x);
+				float angle = dot(normal, direction_struct(result[i].vertex_cc[0].x, result[i].vertex_cc[0].y, result[i].vertex_cc[0].z));
+				if(angle > 0)
+					primitives.push_back(result[i]);
+			}
+		}
+	}else
+		for(int i = 0; i < result.size(); i++)
+			primitives.push_back(result[i]);
 }
 
 // FIM DA IMPLEMENTAÇÃO DOS PROCEDIMENTOS ASSOCIADOS COM A TAREFA RELACIONADA A ESTE ARQUIVO ////////////////////////////////
