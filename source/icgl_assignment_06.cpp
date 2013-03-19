@@ -49,6 +49,7 @@
  */
 void make_segments(const std::vector<location_struct> &vertices_cc, const std::vector<color_struct> &vertices_colors, const std::vector<texcoord_struct> &vertices_texcoords, const std::vector<int> &vertices_texture_ids, std::vector<segment_struct> &primitives) {
     // Calcular 'primitives'.
+	bool pertence = true;
 	segment_struct tmp = segment_struct();
 		for(int i = 0; i < vertices_cc.size(); i++){
 			int aux = i%2;
@@ -63,8 +64,19 @@ void make_segments(const std::vector<location_struct> &vertices_cc, const std::v
 			tmp.vertex_cc[aux].z = vertices_cc[i].z;
 			tmp.vertex_cc[aux].w = vertices_cc[i].w;
 			tmp.texture_id = vertices_texture_ids[i];
-			if(aux == 1)
-				primitives.push_back(tmp);
+			if(!((vertices_cc[i].x > -vertices_cc[i].w && vertices_cc[i].x < vertices_cc[i].w)
+					&& (vertices_cc[i].y > -vertices_cc[i].w && vertices_cc[i].y < vertices_cc[i].w)
+					&& (vertices_cc[i].z > -vertices_cc[i].w && vertices_cc[i].z < vertices_cc[i].w))
+					&& pertence)
+				pertence = false;
+			if(aux == 1){
+				if(pertence){
+					primitives.push_back(tmp);
+				} else{
+					pertence = true;
+				}
+			}
+
 		}
 }
 
